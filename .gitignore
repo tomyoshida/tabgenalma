@@ -1,9 +1,7 @@
-# Python のキャッシュ (バイトコード)
 __pycache__/
 *.py[cod]
 *$py.class
 
-# 仮想環境 (Virtual Environments)
 venv/
 .venv/
 env/
@@ -12,17 +10,12 @@ include/
 lib/
 share/
 
-# VS Code や PyCharm の設定ファイル
 .vscode/
 .idea/
 
-# OS固有のゴミファイル
 .DS_Store
 Thumbs.db
 
-# 環境変数（パスワードやAPIキーなど）
 .env
 
-# 出力データや一時ファイル（必要に応じて）
 *.log
-# data/  <-- もし大きなデータフォルダがあればコメントアウトを外す
