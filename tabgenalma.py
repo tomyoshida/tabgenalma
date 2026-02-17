@@ -120,33 +120,32 @@ def get_baselines( uvw ):
     
     return np.min(uvd), np.max(uvd)
 
-def get_freqs( summary, msmd, spws, obs_id = 0 ):
-    
-    
-    freqs = np.array([])
+
+def get_freqs(msmd, spws, n_break = 5):
+    freqs = []
     for spw in spws:
-        freqs = np.append(freqs, msmd.meanfreq( spw )/1e9 )
-        
-    freq_txt = ''
-    i = 0
-    for freq in freqs:
-        
-        if i == 0:
-            freq_txt += f'{dround(freq, 0.1)}'
-        else:
-            freq_txt += f', {dround(freq, 0.1)}'
-            
-        i+=1
-        
-    
+        freqs.append(msmd.meanfreq(spw) / 1e9)
+
+    freqs = sorted(list(set(freqs)))
+
+    formatted_freqs = [dround(f, '0.1') for f in freqs]
+
+    if len(formatted_freqs) >= n_break:
+        lines = []
+        for i in range(0, len(formatted_freqs), n_break):
+            lines.append(", ".join(formatted_freqs[i:i+n_break]))
+        freq_txt = r"\makecell[c]{" + " \\\\ ".join(lines) + "}"
+    else:
+        freq_txt = ", ".join(formatted_freqs)
+
     return freq_txt
     
-def make_one_line(  msmd, summary, obs_id, uvw, observers, project_code = None ):
+def make_one_line(  msmd, summary, obs_id, uvw, observers, project_code = None, n_break = 5 ):
     
     
     umin, umax = get_baselines( uvw )
     date, dT, spws = get_date_tint_spws( summary, obs_id )
-    freqs = get_freqs( summary, msmd, spws, obs_id )
+    freqs = get_freqs( msmd, spws, n_break )
     
     observer = observers[obs_id]
     
@@ -167,7 +166,7 @@ def dround( v, d = 0 ):
     
     return str(rounded)
     
-def make_lines(  vis, project_code = None ):
+def make_lines(  vis, project_code = None, n_break = 5 ):
     
     
     tb = ctools.table()
@@ -191,7 +190,7 @@ def make_lines(  vis, project_code = None ):
         uvw = subtb.getcol('UVW')
         
         
-        res_list.append( make_one_line(  msmd, summary, obs_id, uvw, observers, project_code = None ) )
+        res_list.append( make_one_line(  msmd, summary, obs_id, uvw, observers, project_code = None, n_break = n_break ) )
         
         
     tb.close()
@@ -201,14 +200,14 @@ def make_lines(  vis, project_code = None ):
     return res_list
 
 
-def generate_table( vis_list, bands, outfile = None ):
+def generate_table( vis_list, bands, outfile = None, n_break = 5 ):
 
     data_dict = {}
    
     for i, vis in enumerate(vis_list):
 
         print( f'Processing {vis}...' )        
-        data_dict[f'Band {bands[i]}'] = make_lines( vis, project_code = None )
+        data_dict[f'Band {bands[i]}'] = make_lines( vis, project_code = None, n_break = n_break )
 
 
     res = generate_alma_obs_table(data_dict)
