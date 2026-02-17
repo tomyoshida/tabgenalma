@@ -1,7 +1,7 @@
 # tabgenalma
 Generate a latex table of an observation summary from ALMA measurement sets.
 
-# Useage
+# Usage
 ```python
 from tabgenalma import generate_table
 
