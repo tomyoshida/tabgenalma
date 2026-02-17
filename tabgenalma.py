@@ -207,11 +207,11 @@ def generate_table( vis_list, bands ):
     data_dict = {}
    
     for i, vis in enumerate(vis_list):
-        
-        print( f'Processing {vis}...' )
-        
-        data_dict[f'Band {bands[i]}] =  make_lines( vis, project_code = None )
-    
+
+        print( f'Processing {vis}...' )        
+        data_dict[f'Band {bands[i]}'] = make_lines( vis, project_code = None )
+
+
     res = generate_alma_obs_table(data_dict)
     print( res )
         
