@@ -202,7 +202,7 @@ def make_lines(  vis, project_code = None ):
     return res_list
 
 
-def generate_table( vis_list, bands ):
+def generate_table( vis_list, bands, outfile = None ):
 
     data_dict = {}
    
@@ -214,5 +214,9 @@ def generate_table( vis_list, bands ):
 
     res = generate_alma_obs_table(data_dict)
     print( res )
-        
+    
+    if outfile:
+    	with open(outfile, mode="w", encoding="utf-8") as f:
+           f.write(res)
+    
     return res
