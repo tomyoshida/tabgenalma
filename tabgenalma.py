@@ -16,8 +16,7 @@ def generate_alma_obs_table(data, header = True, footer = True):
             r"\tablecaption{Summary of ALMA Observations. \label{tab:obs}}",
             r"\tablewidth{0pt}",
             r"\tablehead{",
-            r"\colhead{Project} & \colhead{P.I.} & \colhead{Date} & \colhead{On-source} & \colhead{Baselines} & \colhead{Frequencies}\\",
-            r"\colhead{Code} & \colhead{} & \colhead{} & \colhead{time (min)} & \colhead{(m)} & \colhead{(GHz)\tablenotemark{a}} ",
+            r"\colhead{\makecell{Project \\ code}} & \colhead{P.I.} & \colhead{Date} & \colhead{\makecell{On-source\\time (min)}} & \colhead{\makecell{Baselines \\ (m)}} & \colhead{ \makecell{Frequencies\tablenotemark{a}\\ (GHz)}}",
             r"}",
             r"\startdata"
         ]
